@@ -1,42 +1,35 @@
-<mvc:View controllerName="zprogetto.controller.Home" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form" xmlns="sap.m" xmlns:tnt="sap.tnt">
-    <Page id="page" title="{i18n>title}">
-        <content />
-        <Table id="Tabella" items="{path: 'Modello>/lista',length:'10'}" mode="SingleSelectLeft" selectionChange="popolatabella">
-            <headerToolbar>
-                <OverflowToolbar>
-                    <form:SimpleForm width="100%">
-                        <Select id="anno" forceSelection="false" selectedKey="{/SelectedProduct}" items="{
-													path: '/ProductCollection',
-													sorter: { path: 'Name' }
-												}" value="{/Mezzotrasporto}">
-                            <core:ListItem key="{ProductId}" text="{Name}" icon="{Icon}" />
+<mvc:View controllerName="zprogetto.controller.Home" 
+   xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form" xmlns="sap.m" xmlns:tnt="sap.tnt">
+    <Page id="page">
+        <HeaderContainer >
+        <!-- <OverflowToolbar> -->
+                        <Label text="Anno"/>
+                        <Select id="anno" items="{/lista/Fase}">
+                            <core:Item text="{Anno}"/>
                         </Select>
-                        <Select id="atto" forceSelection="false" selectedKey="{/SelectedProduct}" items="{
-													path: '/ProductCollection',
-													sorter: { path: 'Name' }
-												}" value="{/Mezzotrasporto}">
-                            <core:ListItem key="{ProductId}" text="{Name}" icon="{Icon}" />
+                        <Label text="Descrizione"/>
+                        <Select id="descrizione" items="{/lista/Fase}">
+                            <core:Item text="{Descrizione}"/>
                         </Select>
-                        <Select id="stato" forceSelection="false" selectedKey="{/SelectedProduct}" items="{
-													path: '/ProductCollection',
-													sorter: { path: 'Name' }
-												}" value="{/Mezzotrasporto}">
-                            <core:ListItem key="{ProductId}" text="{Name}" icon="{Icon}" />
+                        <Label text="Amministrazione"/>
+                        <Select id="amministrazione" items="{/lista/Prospetti}">
+                            <core:Item text="{AMMINISTRAZIONE}"/>
                         </Select>
-                        <Select id="prospetto" forceSelection="false" selectedKey="{/SelectedProduct}" items="{
-													path: '/ProductCollection',
-													sorter: { path: 'Name' }
-												}" value="{/Mezzotrasporto}">
-                            <core:ListItem key="{ProductId}" text="{Name}" icon="{Icon}" />
+
+                        <Label text="Progetto"/>
+                        <Select id="progetto" items="{/lista/Prospetti}">
+                            <core:Item text="{PROSPETTO}"/>
                         </Select>
+                        <ToolbarSeparator />
                         <Button id="cerca" text="cerca" press="cerca" />
-                        <!--bottone per filtro-->
-                        <ToolbarSpacer />
+                        <!-- <ToolbarSpacer /> -->
                         <Button id="cancella" text="cancella" press="cancella" />
-                        <!--bottone per la-->
-                    </form:SimpleForm>
-                </OverflowToolbar>
-            </headerToolbar>
+                   
+                <!-- </OverflowToolbar> -->
+        </HeaderContainer>
+        <Table id="Tabella" items="{path: '/lista/Prospetti'}" mode="SingleSelectLeft" selectionChange="popolatabella">
+            
             <columns>
                 <Column>
                     <Text text="Stato Prev." />
@@ -53,18 +46,19 @@
             </columns>
             <items>
                 <ColumnListItem>
-                    <cells>
-                        <Text text="{Modello>name}" />
+                    <cells >
+                        <Text text="{AMMINISTRAZIONE}" />
                     </cells>
                     <cells>
-                        <Text text="{Modello>username}" />
+                        <Text text="{DESCRIZIONE}" />
                     </cells>
                     <cells>
-                        <Text text="{Modello>email}" />
+                         <Text text="{PROSPETTO}" />
                     </cells>
                     <cells>
-                        <Button text="Nota Bene" />
-                        <!--bottone del nota bene-->
+                        <Button text="Nota Bene" press=".onSubmitDialogPress" 
+                                class="sapUiSmallMarginBottom" type="Emphasized" ariaHasPopup="Dialog"/>
+                        
                     </cells>
                 </ColumnListItem>
             </items>
@@ -72,10 +66,9 @@
 
         <footer>
             <OverflowToolbar>
-               
-                <Button text="Export"  icon="sap-icon://excel-attachment" press="onExport" />
+                <Button text="Export" icon="sap-icon://excel-attachment" press="onExport" />
                 <ToolbarSpacer />
-                <Button text="Salva" press="Salva" />
+                <Button text="Salva" press="salva" />
             </OverflowToolbar>
         </footer>
     </Page>

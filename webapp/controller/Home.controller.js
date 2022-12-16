@@ -1,146 +1,196 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     'sap/ui/model/json/JSONModel',
+    "sap/ui/core/Core",
+    "sap/m/Dialog",
+    "sap/m/Button",
+    "sap/m/Label",
+    "sap/m/library",
+    "sap/m/MessageToast",
+    "sap/m/TextArea",
+    'sap/ui/export/Spreadsheet',
     'sap/ui/core/util/MockServer',
-	'sap/ui/export/Spreadsheet',
 	'sap/ui/model/odata/v2/ODataModel'
+
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, MockServer, Spreadsheet,ODataModel) {
+    function (Controller, JSONModel, Core, Dialog, Button, Label, mobileLibrary, MessageToast, TextArea, Spreadsheet,MockServer,ODataModel) {
         "use strict";
+        // shortcut for sap.m.ButtonType
+        var ButtonType = mobileLibrary.ButtonType;
+
+        // shortcut for sap.m.DialogType
+        var DialogType = mobileLibrary.DialogType;
 
         return Controller.extend("zprogetto.controller.Home", {
             onInit: function () {
                 //tabella
                 $.ajax({
-                    url: "https://jsonplaceholder.typicode.com/users",
+                    url: "/model/ModelHome.json",
                     type: "GET",
                     dataType: "json",
                     success: (data) => {
                         const oTabella = new sap.ui.model.json.JSONModel({
-                            lista: [...data],
+                            lista: { ...data },
+
                         });
                         // Assegnazione Model
-                        this.getView().setModel(oTabella, "Modello");
+                        this.getView().setModel(oTabella);
                     },
                     error: function (err) {
                         console.log(err);
                     },
                 });
 
-                var oData = {
-                    "SelectedProduct": "HT-1001",
-                    "ProductCollection": [
-                        {
-                            "ProductId": "Mare",
-                            "Name": "Mare",
-                            "Icon": "sap-icon://umbrella"
-                        },
-                        {
-                            "ProductId": "Montagna",
-                            "Name": "Montagna",
-                            "Icon": "sap-icon://background"
-                        },
-                        {
-                            "ProductId": "Lago",
-                            "Name": "Lago",
-                            "Icon": "sap-icon://heating-cooling"
-                        },
-                    ]
-                };
-                var oModel = new JSONModel(oData);
-                this.getView().setModel(oModel);
-            },
-            //per l'export
-            createColumnConfig: function() {
-                var aCols = [];
-    
-                aCols.push({
-                    label: 'Full name',
-                    property: ['Lastname', 'Firstname'],
-                    type: 'string',
-                    template: '{0}, {1}'
-                });
-    
-                aCols.push({
-                    label: 'ID',
-                    type: 'number',
-                    property: 'UserID',
-                    scale: 0
-                });
-    
-                aCols.push({
-                    property: 'Firstname',
-                    type: 'string'
-                });
-    
-                aCols.push({
-                    property: 'Lastname',
-                    type: 'string'
-                });
-    
-                aCols.push({
-                    property: 'Birthdate',
-                    type: 'date'
-                });
-    
-                aCols.push({
-                    property: 'Salary',
-                    type: 'number',
-                    scale: 2,
-                    delimiter: true
-                });
-    
-                aCols.push({
-                    property: 'Currency',
-                    type: 'string'
-                });
-    
-                aCols.push({
-                    property: 'Active',
-                    type: 'boolean',
-                    trueValue: 'YES',
-                    falseValue: 'NO'
-                });
-    
-                return aCols;
-            },
-            onExport: function () {
-                var aCols, oRowBinding, oSettings, oSheet, oTable;
+                //prova
+                var oModello, oView;
 
-                if (!this._oTable) {
-                    this._oTable = this.byId('Tabella');
+                this._sServiceUrl = './localService';
+    
+                this._oMockServer = new MockServer({
+                    rootUri: this._sServiceUrl + "/"
+                });
+    
+                var sPath = sap.ui.require.toUrl('sap/ui/export/sample/localService');
+                this._oMockServer.simulate(sPath + '/metadata.xml', sPath + '/mockdata');
+                this._oMockServer.start();
+    
+                oModello = new ODataModel(this._sServiceUrl);
+    
+                oView = this.getView();
+                oView.setModel(oModello);
+            },
+            //per la modale
+            onSubmitDialogPress: function () {
+                if (!this.oSubmitDialog) {
+                    this.oSubmitDialog = new Dialog({
+                        type: DialogType.Message,
+                        title: "Note",
+                        content: [
+                            new Label({
+                                text: "Note",
+                                labelFor: "submissionNote"
+                            }),
+                            new TextArea("submissionNote", {
+                                width: "100%",
+                                placeholder: "Add note (required)",
+                                liveChange: function (oEvent) {
+                                    var sText = oEvent.getParameter("value");
+                                    // this.oSubmitDialog.getBeginButton().setEnabled(sText.length > 0);
+                                    if (sText.length == 0) {
+
+                                    }
+                                }.bind(this)
+                            })
+                        ],
+                        beginButton: new Button({
+                            type: ButtonType.Emphasized,
+                            text: "Submit",
+                            enabled: true,
+                            press: function () {
+                                var sText = Core.byId("submissionNote").getValue();
+                                MessageToast.show("Note is: " + sText);
+                                this.oSubmitDialog.close();
+                            }.bind(this)
+                        }),
+                        endButton: new Button({
+                            text: "Cancel",
+                            press: function () {
+                                this.oSubmitDialog.close();
+                            }.bind(this)
+                        })
+                    });
                 }
 
-                oTable = this._oTable;
-                oRowBinding = oTable.getBinding('items');
-
-                aCols = this.createColumnConfig();
-
-                var oModel = oRowBinding.getModel();
-
-                oSettings = {
-                    workbook: {
-                        columns: aCols,
-                        hierarchyLevel: 'Level'
-                    },
-                    dataSource: {
-                        type: 'odata',
-                        dataUrl: oRowBinding.getDownloadUrl ? oRowBinding.getDownloadUrl() : null,
-                        serviceUrl: this._sServiceUrl,
-                        headers: oModel.getHeaders ? oModel.getHeaders() : null,
-                        count: oRowBinding.getLength ? oRowBinding.getLength() : null,
-                        useBatch: true
-                    },
-                    worker: false
-                };
-
-                oSheet = new Spreadsheet(oSettings);
-                oSheet.build().finally(function () {
-                    oSheet.destroy();
-                });
+                this.oSubmitDialog.open();
             },
+
+            //per l'export
+            createColumnConfig: function() {
+                return [
+                    {
+                        label: 'AMMINISTRAZIONE',
+                        property: 'AMMINISTRAZIONE',
+                        width: '25'
+                    },
+                    {
+                        label: 'PROSPETTO',
+                        property: 'PROSPETTO',
+                        width: '25'
+                    },
+                    {
+                        label: 'DESCRIZIONE',
+                        property: 'DESCRIZIONE',
+                        width: '25'
+                    },
+                    {
+                        label: 'ANNO_FASE',
+                        property: 'ANNO_FASE',
+                        width: '25'
+                    },
+                    {
+                        label: 'FASE',
+                        property: 'FASE',
+                        width: '25'
+                    },
+                    {
+                        label: 'NOTA',
+                        property: 'NOTA',
+                    }];
+            },
+            onExport: function() {
+                var aCols, aProducts, oSettings, oSheet;
+    
+                aCols = this.createColumnConfig();
+                aProducts = this.getView().getModel().getProperty('/lista/Prospetti');
+    
+                oSettings = {
+                    workbook: { columns: aCols },
+                    dataSource: aProducts
+                };
+    
+                oSheet = new Spreadsheet(oSettings);
+                oSheet.build()
+                    .then( function() {
+                        MessageToast.show('Spreadsheet export has finished');
+                    })
+                    .finally(function() {
+                        oSheet.destroy();
+                    });
+            },
+            cerca: function () {
+                const bilancio = this.byId("descrizione").getSelectedItem().getProperty("text")
+                const amministrazione = this.byId("amministrazione").getSelectedItem().getProperty("text")
+                const prospetto = this.byId("progetto").getSelectedItem().getProperty("text")
+
+                const modello = this.getView().getModel()
+                let tables = modello.getProperty("/lista/Prospetti")
+
+                tables = tables.filter(table => table.AMMINISTRAZIONE == amministrazione && table.PROSPETTO || prospetto && table.Descrizione == bilancio)
+                modello.setProperty("/lista/Prospetti", tables)
+            },
+            cancella: function () {
+                var oSelected = this.byId("Tabella").getSelectedItem();
+
+                if (oSelected) {
+                    const amministrazione = oSelected
+                        .getAggregation("cells")[0]
+                        .getProperty("text");
+
+                    const model = this.getView().getModel();
+                    let table = model.getProperty("/lista/Prospetti");
+
+                    const index = table.findIndex((table) => table.AMMINISTRAZIONE == amministrazione);
+
+                    table.splice(index, 1);
+                    model.setProperty("/lista/Prospetti", table);
+
+
+                }
+            },
+
+
         });
     });
