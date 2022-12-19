@@ -1,11 +1,11 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    'sap/ui/model/json/JSONModel',
-    "sap/ui/core/Core",
-    "sap/m/Dialog",
-    "sap/m/Button",
-    "sap/m/Label",
-    "sap/m/library",
+    // 'sap/ui/model/json/JSONModel',
+    // "sap/ui/core/Core",
+    // "sap/m/Dialog",
+    // "sap/m/Button",
+    // "sap/m/Label",
+    // "sap/m/library",
     "sap/m/MessageToast",
     "sap/m/TextArea",
     'sap/ui/export/Spreadsheet',
@@ -16,7 +16,7 @@ sap.ui.define([
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, Core, Dialog, Button, Label, mobileLibrary, MessageToast, TextArea, Spreadsheet, MockServer, ODataModel) {
+    function (Controller,  MessageToast, TextArea, Spreadsheet, MockServer, ODataModel) {
         "use strict";
 
 
@@ -115,7 +115,9 @@ sap.ui.define([
 
                 oSettings = {
                     workbook: { columns: aCols },
-                    dataSource: aProducts
+                    dataSource: aProducts,
+                    fileName: "Info.xlsx" //per nominare il file di export
+
                 };
 
                 oSheet = new Spreadsheet(oSettings);
