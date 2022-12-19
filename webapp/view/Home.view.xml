@@ -6,20 +6,20 @@
         <!-- <OverflowToolbar> -->
                         <Label text="Anno"/>
                         <Select id="anno" items="{/lista/Fase}">
-                            <core:Item text="{Anno}"/>
+                            <core:Item text="2020"/>
                         </Select>
                         <Label text="Descrizione"/>
                         <Select id="descrizione" items="{/lista/Fase}">
-                            <core:Item text="{Descrizione}"/>
+                            <core:Item key="{Descrizione}"  text="{Descrizione}"/>
                         </Select>
                         <Label text="Amministrazione"/>
                         <Select id="amministrazione" items="{/lista/Prospetti}">
-                            <core:Item text="{AMMINISTRAZIONE}"/>
+                            <core:Item  key="{AMMINISTRAZIONE}"  text="{AMMINISTRAZIONE}"/>
                         </Select>
 
                         <Label text="Progetto"/>
                         <Select id="progetto" items="{/lista/Prospetti}">
-                            <core:Item text="{PROSPETTO}"/>
+                            <core:Item key="{PROSPETTO}" text="{PROSPETTO}"/>
                         </Select>
                         <ToolbarSeparator />
                         <Button id="cerca" text="cerca" press="cerca" />
@@ -56,7 +56,7 @@
                          <Text text="{PROSPETTO}" />
                     </cells>
                     <cells>
-                        <Button text="Nota Bene" press=".onSubmitDialogPress" 
+                        <Button text="Nota Bene" press=".onSubmitDialogPress"  
                                 class="sapUiSmallMarginBottom" type="Emphasized" ariaHasPopup="Dialog"/>
                         
                     </cells>

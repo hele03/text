@@ -165,11 +165,16 @@ sap.ui.define([
                 const amministrazione = this.byId("amministrazione").getSelectedItem().getProperty("text")
                 const prospetto = this.byId("progetto").getSelectedItem().getProperty("text")
 
-                const modello = this.getView().getModel()
-                let tables = modello.getProperty("/lista/Prospetti")
-
-                tables = tables.filter(table => table.AMMINISTRAZIONE == amministrazione && table.PROSPETTO || prospetto && table.Descrizione == bilancio)
-                modello.setProperty("/lista/Prospetti", tables)
+                const modello = this.getView().getModel();
+                let tables = modello.getProperty("/lista/Prospetti");
+                const table = this.byId("Tabella");
+                const binding = table.getBinding("items");
+                const filter = [];
+                filter.push(
+                  new sap.ui.model.Filter("AMMINISTRAZIONE", "EQ", amministrazione),
+                  new sap.ui.model.Filter("PROSPETTO", "EQ", prospetto)
+                );
+                binding.filter(filter);
             },
             cancella: function () {
                 var oSelected = this.byId("Tabella").getSelectedItem();
