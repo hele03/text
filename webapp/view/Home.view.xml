@@ -5,11 +5,13 @@ xmlns:core="sap.ui.core"  xmlns="sap.m" >
         <HeaderContainer>
             <!-- <OverflowToolbar> -->
             <Label text="Anno" />
-            <Select id="anno" items="{/lista/Fase}">
-                <core:Item text="2020" />
+            <Select id="anno">
+                <core:Item text="2022" />
+                <core:Item text="2023" />
             </Select>
             <Label text="Descrizione" />
             <Select id="descrizione" items="{/lista/Fase}">
+            <!-- <core:Item text="2020" /> -->
                 <core:Item key="{Descrizione}" text="{Descrizione}" />
             </Select>
             <Label text="Amministrazione" />
@@ -22,9 +24,12 @@ xmlns:core="sap.ui.core"  xmlns="sap.m" >
                 <core:Item key="{PROSPETTO}" text="{PROSPETTO}" />
             </Select>
             <ToolbarSeparator />
-            <Button id="cerca" text="cerca" press="cerca" />
+            
+            <Button id="cerca" text="Filtro" icon="sap-icon://filter" press="cerca" />
+            <Button id="refresh" text="refresh" icon="sap-icon://refresh" press="refresh" />
+            
             <!-- <ToolbarSpacer /> -->
-            <Button id="cancella" text="cancella" press="cancella" />
+           
 
             <!-- </OverflowToolbar> -->
         </HeaderContainer>
@@ -83,7 +88,7 @@ xmlns:core="sap.ui.core"  xmlns="sap.m" >
             <OverflowToolbar>
                 <Button text="Export" icon="sap-icon://excel-attachment" press="onExport" />
                 <ToolbarSpacer />
-                <Button text="Salva" press="salva" />
+                 <Button id="cancella" text="cancella" press="cancella" />
             </OverflowToolbar>
         </footer>
     </Page>

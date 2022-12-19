@@ -18,7 +18,7 @@ sap.ui.define([
      */
     function (Controller, JSONModel, Core, Dialog, Button, Label, mobileLibrary, MessageToast, TextArea, Spreadsheet, MockServer, ODataModel) {
         "use strict";
-       
+
 
         return Controller.extend("zprogetto.controller.Home", {
             onInit: function () {
@@ -58,21 +58,21 @@ sap.ui.define([
                 oView = this.getView();
                 oView.setModel(oModello);
             },
-            onCancelPress: function() {
+            onCancelPress: function () {
                 this.byId("myDialog").close();
-              },
-          
-              onOkPress: function() {
+            },
+
+            onOkPress: function () {
                 this.byId("myDialog").close();
-              },
-          
+            },
+
             //per la modale
-            onItemPress: function(event) {
+            onItemPress: function (event) {
                 var dialog = this.byId("myDialog");
                 var item = event.getSource();
                 dialog.setBindingContext(item.getBindingContext());
                 dialog.open();
-              },
+            },
 
             //per l'export
             createColumnConfig: function () {
@@ -127,6 +127,9 @@ sap.ui.define([
                         oSheet.destroy();
                     });
             },
+            //prova
+
+            //end prova
             cerca: function () {
                 const bilancio = this.byId("descrizione").getSelectedItem().getProperty("text")
                 const amministrazione = this.byId("amministrazione").getSelectedItem().getProperty("text")
@@ -142,6 +145,11 @@ sap.ui.define([
                     new sap.ui.model.Filter("PROSPETTO", "EQ", prospetto)
                 );
                 binding.filter(filter);
+            },
+            refresh: function (oControlEvent) {
+                var oBinding=this.getView().byId("Tabella").getBinding("items")
+                oBinding.filter([]);
+                this.getView().byId("Tabella").setShowOverlay(false);ù
             },
             cancella: function () {
                 var oSelected = this.byId("Tabella").getSelectedItem();
