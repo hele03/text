@@ -127,20 +127,18 @@ sap.ui.define([
                         oSheet.destroy();
                     });
             },
-            //prova
-
-            //end prova
             cerca: function () {
-                const bilancio = this.byId("descrizione").getSelectedItem().getProperty("text")
+                // const bilancio = this.byId("descrizione").getSelectedItem().getProperty("text")
                 const amministrazione = this.byId("amministrazione").getSelectedItem().getProperty("text")
                 const prospetto = this.byId("progetto").getSelectedItem().getProperty("text")
 
-                const modello = this.getView().getModel();
-                let tables = modello.getProperty("/lista/Prospetti");
+                // const modello = this.getView().getModel();
+                // let tables = modello.getProperty("/lista/Prospetti");
                 const table = this.byId("Tabella");
                 const binding = table.getBinding("items");
                 const filter = [];
                 filter.push(
+                    
                     new sap.ui.model.Filter("AMMINISTRAZIONE", "EQ", amministrazione),
                     new sap.ui.model.Filter("PROSPETTO", "EQ", prospetto)
                 );
