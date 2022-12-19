@@ -1,6 +1,4 @@
-<mvc:View controllerName="zprogetto.controller.Home" 
-xmlns:mvc="sap.ui.core.mvc" displayBlock="true" 
-xmlns:core="sap.ui.core"  xmlns="sap.m" >
+<mvc:View controllerName="zprogetto.controller.Home" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:core="sap.ui.core" xmlns="sap.m">
     <Page id="page">
         <HeaderContainer>
             <!-- <OverflowToolbar> -->
@@ -11,7 +9,7 @@ xmlns:core="sap.ui.core"  xmlns="sap.m" >
             </Select>
             <Label text="Descrizione" />
             <Select id="descrizione" items="{/lista/Fase}">
-            <!-- <core:Item text="2020" /> -->
+                <!-- <core:Item text="2020" /> -->
                 <core:Item key="{Descrizione}" text="{Descrizione}" />
             </Select>
             <Label text="Amministrazione" />
@@ -26,10 +24,11 @@ xmlns:core="sap.ui.core"  xmlns="sap.m" >
             <Button id="cerca" text="Filtro" icon="sap-icon://filter" press="cerca" />
             <Button id="refresh" text="refresh" icon="sap-icon://refresh" press="refresh" />
         </HeaderContainer>
-        <Table id="Tabella" items="{path: '/lista/Prospetti'}" mode="SingleSelectLeft" selectionChange="popolatabella" sticky="ColumnHeaders">
+
+        <Table id="Tabella" items="{path: '/lista/Prospetti'}" mode="SingleSelectLeft" selectionChange="popolatabella" sticky="ColumnHeaders">  
             <columns>
-                <Column hAlign="Center" >
-                    <Text text="Stato Prev."   />
+                <Column hAlign="Center">
+                    <Text text="Stato Prev." />
                 </Column>
                 <Column hAlign="Center">
                     <Text text="Numero Pros." />
@@ -53,35 +52,35 @@ xmlns:core="sap.ui.core"  xmlns="sap.m" >
                         <Text text="{PROSPETTO}" />
                     </cells>
                     <cells>
-                        <Button text="Nota Bene" press=".onItemPress"  >
+                        <Button text="Nota Bene" press=".onItemPress">
                             <customData>
-                                    <core:CustomData key="popolato" value="{= ${NOTA}.length > 0 ? 'si': 'no'}" writeToDom="true" />
+                                <core:CustomData key="popolato" value="{= ${NOTA}.length > 0 ? 'si': 'no'}" writeToDom="true" />
                             </customData>
                         </Button>
                     </cells>
                 </ColumnListItem>
             </items>
-             <dependents>
-                            <Dialog id="myDialog" title="Modifica nota: " type="Message">
-                                <VBox renderType="Bare" items="/lista/Prospetti">
-                                    <Label text="Nota: " />
-                                    <TextArea value="{NOTA}" editable="true"/>
-                                </VBox>
-                                <beginButton>
-                                    <Button text="Cancel" press=".onCancelPress" />
-                                </beginButton>
-                                <endButton>
-                                    <Button text="OK" press=".onOkPress" />
-                                </endButton>
-                            </Dialog>
-                        </dependents>
+            <dependents>
+                <Dialog id="myDialog" title="Modifica nota: " type="Message">
+                    <VBox renderType="Bare" items="/lista/Prospetti">
+                        <Label text="Nota: " />
+                        <TextArea value="{NOTA}" editable="true" />
+                    </VBox>
+                    <beginButton>
+                        <Button text="Cancel" press=".onCancelPress" />
+                    </beginButton>
+                    <endButton>
+                        <Button text="OK" press=".onOkPress" />
+                    </endButton>
+                </Dialog>
+            </dependents>
         </Table>
 
         <footer>
             <OverflowToolbar>
                 <Button text="Export" icon="sap-icon://excel-attachment" press="onExport" />
                 <ToolbarSpacer />
-                 <Button id="cancella" text="cancella" press="cancella" />
+                <Button id="cancella" text="cancella" press="cancella" />
             </OverflowToolbar>
         </footer>
     </Page>
