@@ -60,7 +60,7 @@ xmlns:core="sap.ui.core"  xmlns="sap.m" >
                         <Text text="{PROSPETTO}" />
                     </cells>
                     <cells>
-                        <Button text="Nota Bene" press=".onItemPress" >
+                        <Button text="Nota Bene" press=".onItemPress"  >
                             <customData>
                                     <core:CustomData key="popolato" value="{= ${NOTA}.length > 0 ? 'si': 'no'}" writeToDom="true" />
                             </customData>
