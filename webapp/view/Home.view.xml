@@ -23,28 +23,21 @@ xmlns:core="sap.ui.core"  xmlns="sap.m" >
             <Select id="progetto" items="{/lista/Prospetti}">
                 <core:Item key="{PROSPETTO}" text="{PROSPETTO}" />
             </Select>
-            <ToolbarSeparator />
-            
             <Button id="cerca" text="Filtro" icon="sap-icon://filter" press="cerca" />
             <Button id="refresh" text="refresh" icon="sap-icon://refresh" press="refresh" />
-            
-            <!-- <ToolbarSpacer /> -->
-           
-
-            <!-- </OverflowToolbar> -->
         </HeaderContainer>
-        <Table id="Tabella" items="{path: '/lista/Prospetti'}" mode="SingleSelectLeft" selectionChange="popolatabella">
+        <Table id="Tabella" items="{path: '/lista/Prospetti'}" mode="SingleSelectLeft" selectionChange="popolatabella" sticky="ColumnHeaders">
             <columns>
-                <Column>
-                    <Text text="Stato Prev." />
+                <Column hAlign="Center" >
+                    <Text text="Stato Prev."   />
                 </Column>
-                <Column>
+                <Column hAlign="Center">
                     <Text text="Numero Pros." />
                 </Column>
-                <Column>
+                <Column hAlign="Center">
                     <Text text="Descrizione Prosp." />
                 </Column>
-                <Column>
+                <Column hAlign="Center">
                     <Text text="Nota Bene" />
                 </Column>
             </columns>
