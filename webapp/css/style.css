@@ -1,2 +1,5 @@
 /* Enter your custom styles here */
-.changecolor{background-color: coral;} 
+[data-popolato='si'] .sapMBtnDefault{
+    background-color: yellow!important;
+    color: rgb(255, 132, 0)!important;
+}

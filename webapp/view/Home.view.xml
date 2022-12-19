@@ -1,35 +1,34 @@
 <mvc:View controllerName="zprogetto.controller.Home" 
-   xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:core="sap.ui.core"
-    xmlns:form="sap.ui.layout.form" xmlns="sap.m" xmlns:tnt="sap.tnt">
+xmlns:mvc="sap.ui.core.mvc" displayBlock="true" 
+xmlns:core="sap.ui.core"  xmlns="sap.m" >
     <Page id="page">
-        <HeaderContainer >
-        <!-- <OverflowToolbar> -->
-                        <Label text="Anno"/>
-                        <Select id="anno" items="{/lista/Fase}">
-                            <core:Item text="2020"/>
-                        </Select>
-                        <Label text="Descrizione"/>
-                        <Select id="descrizione" items="{/lista/Fase}">
-                            <core:Item key="{Descrizione}"  text="{Descrizione}"/>
-                        </Select>
-                        <Label text="Amministrazione"/>
-                        <Select id="amministrazione" items="{/lista/Prospetti}">
-                            <core:Item  key="{AMMINISTRAZIONE}"  text="{AMMINISTRAZIONE}"/>
-                        </Select>
+        <HeaderContainer>
+            <!-- <OverflowToolbar> -->
+            <Label text="Anno" />
+            <Select id="anno" items="{/lista/Fase}">
+                <core:Item text="2020" />
+            </Select>
+            <Label text="Descrizione" />
+            <Select id="descrizione" items="{/lista/Fase}">
+                <core:Item key="{Descrizione}" text="{Descrizione}" />
+            </Select>
+            <Label text="Amministrazione" />
+            <Select id="amministrazione" items="{/lista/Prospetti}">
+                <core:Item key="{AMMINISTRAZIONE}" text="{AMMINISTRAZIONE}" />
+            </Select>
 
-                        <Label text="Progetto"/>
-                        <Select id="progetto" items="{/lista/Prospetti}">
-                            <core:Item key="{PROSPETTO}" text="{PROSPETTO}"/>
-                        </Select>
-                        <ToolbarSeparator />
-                        <Button id="cerca" text="cerca" press="cerca" />
-                        <!-- <ToolbarSpacer /> -->
-                        <Button id="cancella" text="cancella" press="cancella" />
-                   
-                <!-- </OverflowToolbar> -->
+            <Label text="Progetto" />
+            <Select id="progetto" items="{/lista/Prospetti}">
+                <core:Item key="{PROSPETTO}" text="{PROSPETTO}" />
+            </Select>
+            <ToolbarSeparator />
+            <Button id="cerca" text="cerca" press="cerca" />
+            <!-- <ToolbarSpacer /> -->
+            <Button id="cancella" text="cancella" press="cancella" />
+
+            <!-- </OverflowToolbar> -->
         </HeaderContainer>
         <Table id="Tabella" items="{path: '/lista/Prospetti'}" mode="SingleSelectLeft" selectionChange="popolatabella">
-            
             <columns>
                 <Column>
                     <Text text="Stato Prev." />
@@ -46,22 +45,38 @@
             </columns>
             <items>
                 <ColumnListItem>
-                    <cells >
+                    <cells>
                         <Text text="{AMMINISTRAZIONE}" />
                     </cells>
                     <cells>
                         <Text text="{DESCRIZIONE}" />
                     </cells>
                     <cells>
-                         <Text text="{PROSPETTO}" />
+                        <Text text="{PROSPETTO}" />
                     </cells>
                     <cells>
-                        <Button text="Nota Bene" press=".onSubmitDialogPress"  
-                                class="sapUiSmallMarginBottom" type="Emphasized" ariaHasPopup="Dialog"/>
-                        
+                        <Button text="Nota Bene" press=".onItemPress" >
+                            <customData>
+                                    <core:CustomData key="popolato" value="{= ${NOTA}.length > 0 ? 'si': 'no'}" writeToDom="true" />
+                            </customData>
+                        </Button>
                     </cells>
                 </ColumnListItem>
             </items>
+             <dependents>
+                            <Dialog id="myDialog" title="Modifica nota: " type="Message">
+                                <VBox renderType="Bare" items="/lista/Prospetti">
+                                    <Label text="Nota: " />
+                                    <TextArea value="{NOTA}" editable="true"/>
+                                </VBox>
+                                <beginButton>
+                                    <Button text="Cancel" press=".onCancelPress" />
+                                </beginButton>
+                                <endButton>
+                                    <Button text="OK" press=".onOkPress" />
+                                </endButton>
+                            </Dialog>
+                        </dependents>
         </Table>
 
         <footer>

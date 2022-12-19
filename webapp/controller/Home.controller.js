@@ -10,19 +10,15 @@ sap.ui.define([
     "sap/m/TextArea",
     'sap/ui/export/Spreadsheet',
     'sap/ui/core/util/MockServer',
-	'sap/ui/model/odata/v2/ODataModel'
+    'sap/ui/model/odata/v2/ODataModel'
 
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, Core, Dialog, Button, Label, mobileLibrary, MessageToast, TextArea, Spreadsheet,MockServer,ODataModel) {
+    function (Controller, JSONModel, Core, Dialog, Button, Label, mobileLibrary, MessageToast, TextArea, Spreadsheet, MockServer, ODataModel) {
         "use strict";
-        // shortcut for sap.m.ButtonType
-        var ButtonType = mobileLibrary.ButtonType;
-
-        // shortcut for sap.m.DialogType
-        var DialogType = mobileLibrary.DialogType;
+       
 
         return Controller.extend("zprogetto.controller.Home", {
             onInit: function () {
@@ -48,67 +44,38 @@ sap.ui.define([
                 var oModello, oView;
 
                 this._sServiceUrl = './localService';
-    
+
                 this._oMockServer = new MockServer({
                     rootUri: this._sServiceUrl + "/"
                 });
-    
+
                 var sPath = sap.ui.require.toUrl('sap/ui/export/sample/localService');
                 this._oMockServer.simulate(sPath + '/metadata.xml', sPath + '/mockdata');
                 this._oMockServer.start();
-    
+
                 oModello = new ODataModel(this._sServiceUrl);
-    
+
                 oView = this.getView();
                 oView.setModel(oModello);
             },
+            onCancelPress: function() {
+                this.byId("myDialog").close();
+              },
+          
+              onOkPress: function() {
+                this.byId("myDialog").close();
+              },
+          
             //per la modale
-            onSubmitDialogPress: function () {
-                if (!this.oSubmitDialog) {
-                    this.oSubmitDialog = new Dialog({
-                        type: DialogType.Message,
-                        title: "Note",
-                        content: [
-                            new Label({
-                                text: "Note",
-                                labelFor: "submissionNote"
-                            }),
-                            new TextArea("submissionNote", {
-                                width: "100%",
-                                placeholder: "Add note (required)",
-                                liveChange: function (oEvent) {
-                                    var sText = oEvent.getParameter("value");
-                                    // this.oSubmitDialog.getBeginButton().setEnabled(sText.length > 0);
-                                    if (sText.length == 0) {
-
-                                    }
-                                }.bind(this)
-                            })
-                        ],
-                        beginButton: new Button({
-                            type: ButtonType.Emphasized,
-                            text: "Submit",
-                            enabled: true,
-                            press: function () {
-                                var sText = Core.byId("submissionNote").getValue();
-                                MessageToast.show("Note is: " + sText);
-                                this.oSubmitDialog.close();
-                            }.bind(this)
-                        }),
-                        endButton: new Button({
-                            text: "Cancel",
-                            press: function () {
-                                this.oSubmitDialog.close();
-                            }.bind(this)
-                        })
-                    });
-                }
-
-                this.oSubmitDialog.open();
-            },
+            onItemPress: function(event) {
+                var dialog = this.byId("myDialog");
+                var item = event.getSource();
+                dialog.setBindingContext(item.getBindingContext());
+                dialog.open();
+              },
 
             //per l'export
-            createColumnConfig: function() {
+            createColumnConfig: function () {
                 return [
                     {
                         label: 'AMMINISTRAZIONE',
@@ -140,23 +107,23 @@ sap.ui.define([
                         property: 'NOTA',
                     }];
             },
-            onExport: function() {
+            onExport: function () {
                 var aCols, aProducts, oSettings, oSheet;
-    
+
                 aCols = this.createColumnConfig();
                 aProducts = this.getView().getModel().getProperty('/lista/Prospetti');
-    
+
                 oSettings = {
                     workbook: { columns: aCols },
                     dataSource: aProducts
                 };
-    
+
                 oSheet = new Spreadsheet(oSettings);
                 oSheet.build()
-                    .then( function() {
+                    .then(function () {
                         MessageToast.show('Spreadsheet export has finished');
                     })
-                    .finally(function() {
+                    .finally(function () {
                         oSheet.destroy();
                     });
             },
@@ -171,8 +138,8 @@ sap.ui.define([
                 const binding = table.getBinding("items");
                 const filter = [];
                 filter.push(
-                  new sap.ui.model.Filter("AMMINISTRAZIONE", "EQ", amministrazione),
-                  new sap.ui.model.Filter("PROSPETTO", "EQ", prospetto)
+                    new sap.ui.model.Filter("AMMINISTRAZIONE", "EQ", amministrazione),
+                    new sap.ui.model.Filter("PROSPETTO", "EQ", prospetto)
                 );
                 binding.filter(filter);
             },
