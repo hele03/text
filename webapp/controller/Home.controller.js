@@ -149,7 +149,7 @@ sap.ui.define([
             refresh: function (oControlEvent) {
                 var oBinding=this.getView().byId("Tabella").getBinding("items")
                 oBinding.filter([]);
-                this.getView().byId("Tabella").setShowOverlay(false);ù
+                this.getView().byId("Tabella").setShowOverlay(false);
             },
             cancella: function () {
                 var oSelected = this.byId("Tabella").getSelectedItem();
