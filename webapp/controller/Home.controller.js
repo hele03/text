@@ -40,23 +40,23 @@ sap.ui.define([
                     },
                 });
 
-                //prova
-                var oModello, oView;
+                // //prova
+                // var oModello, oView;
 
-                this._sServiceUrl = './localService';
+                // this._sServiceUrl = './localService';
 
-                this._oMockServer = new MockServer({
-                    rootUri: this._sServiceUrl + "/"
-                });
+                // this._oMockServer = new MockServer({
+                //     rootUri: this._sServiceUrl + "/"
+                // });
 
-                var sPath = sap.ui.require.toUrl('sap/ui/export/sample/localService');
-                this._oMockServer.simulate(sPath + '/metadata.xml', sPath + '/mockdata');
-                this._oMockServer.start();
+                // var sPath = sap.ui.require.toUrl('sap/ui/export/sample/localService');
+                // this._oMockServer.simulate(sPath + '/metadata.xml', sPath + '/mockdata');
+                // this._oMockServer.start();
 
-                oModello = new ODataModel(this._sServiceUrl);
+                // oModello = new ODataModel(this._sServiceUrl);
 
-                oView = this.getView();
-                oView.setModel(oModello);
+                // oView = this.getView();
+                // oView.setModel(oModello);
             },
             onCancelPress: function () {
                 this.byId("myDialog").close();
