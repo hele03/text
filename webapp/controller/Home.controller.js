@@ -267,8 +267,8 @@ sap.ui.define([
                 if(statoprev != "" && numeropro!= "" && descprosp != "" ){
                     var values={
                       AMMINISTRAZIONE: parseInt(statoprev),
-                      PROSPETTO: parseInt(numeropro),
-                      DESCRIZIONE: descprosp,
+                      PROSPETTO: descprosp,
+                      DESCRIZIONE:numeropro,
                       NOTA: nota
                     }
 
