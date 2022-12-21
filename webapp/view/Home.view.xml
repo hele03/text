@@ -1,86 +1,153 @@
-<mvc:View controllerName="zprogetto.controller.Home" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:core="sap.ui.core" xmlns="sap.m">
-    <Page id="page">
-        <headerContent > 
-            <Label text="Anno" />
-            <Select id="anno">
-                <core:Item text="2022" />
-                <core:Item text="2023" />
-            </Select>
-            <Label text="Descrizione" />
-            <Select id="descrizione" items="{/lista/Fase}">
-                <!-- <core:Item text="2020" /> -->
-                <core:Item key="{Descrizione}" text="{Descrizione}" />
-            </Select>
-            <Label text="Amministrazione" />
-            <Select id="amministrazione" items="{/lista/Prospetti}">
-                <core:Item key="{AMMINISTRAZIONE}" text="{AMMINISTRAZIONE}" />
-            </Select>
+<mvc:View controllerName="zprogetto.controller.Home" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout">
+    <App id="app">
+        <Page id="page">
+            <headerContent>
+                <Label text="Anno" />
+                <Select id="anno">
+                    <core:Item text="2022" />
+                    <core:Item text="2023" />
+                </Select>
+                <Label text="Descrizione" />
+                <Select id="descrizione" items="{/lista/Fase}">
+                    <!-- <core:Item text="2020" /> -->
+                    <core:Item key="{Descrizione}" text="{Descrizione}" />
+                </Select>
+                <Label text="Amministrazione" />
+                <Select id="amministrazione" items="{/lista/Prospetti}">
+                    <core:Item key="{AMMINISTRAZIONE}" text="{AMMINISTRAZIONE}" />
+                </Select>
 
-            <Label text="Progetto" />
-            <Select id="progetto" items="{/lista/Prospetti}">
-                <core:Item key="{PROSPETTO}" text="{PROSPETTO}" />
-            </Select>
-            <Button id="cerca" text="Filtro" icon="sap-icon://filter" press="cerca" />
-            <Button id="refresh" text="refresh" icon="sap-icon://refresh" press="refresh" />
-        </headerContent>
+                <Label text="Progetto" />
+                <Select id="progetto" items="{/lista/Prospetti}">
+                    <core:Item key="{PROSPETTO}" text="{PROSPETTO}" />
+                </Select>
+                <Button id="cerca" text="Filtro" icon="sap-icon://filter" press="cerca" />
+                <Button id="refresh" text="refresh" icon="sap-icon://refresh" press="refresh" />
+            </headerContent>
 
-        <Table id="Tabella" items="{path: '/lista/Prospetti'}" mode="SingleSelectLeft" selectionChange="popolatabella" sticky="ColumnHeaders">  
-            <columns>
-                <Column hAlign="Center">
-                    <Text text="Stato Prev." />
-                </Column>
-                <Column hAlign="Center">
-                    <Text text="Numero Pros." />
-                </Column>
-                <Column hAlign="Center">
-                    <Text text="Descrizione Prosp." />
-                </Column>
-                <Column hAlign="Center">
-                    <Text text="Nota Bene" />
-                </Column>
-            </columns>
-            <items>
-                <ColumnListItem>
-                    <cells>
-                        <Text text="{AMMINISTRAZIONE}" />
-                    </cells>
-                    <cells>
-                        <Text text="{DESCRIZIONE}" />
-                    </cells>
-                    <cells>
-                        <Text text="{PROSPETTO}" />
-                    </cells>
-                    <cells>
-                        <Button text="Nota Bene" press=".onItemPress">
-                            <customData>
-                                <core:CustomData key="popolato" value="{= ${NOTA}.length > 0 ? 'si': 'no'}" writeToDom="true" />
-                            </customData>
-                        </Button>
-                    </cells>
-                </ColumnListItem>
-            </items>
-            <dependents>
-                <Dialog id="myDialog" title="Modifica nota: " type="Message">
-                    <VBox renderType="Bare" items="/lista/Prospetti">
-                        <Label text="Nota: " />
-                        <TextArea value="{NOTA}" editable="true" />
-                    </VBox>
-                    <beginButton>
-                        <Button text="Cancel" press=".onCancelPress" />
-                    </beginButton>
-                    <endButton>
-                        <Button text="OK" press=".onOkPress" />
-                    </endButton>
-                </Dialog>
-            </dependents>
-        </Table>
+            <Table id="Tabella" items="{path: '/lista/Prospetti'}" mode="SingleSelectLeft" selectionChange="popolatabella" sticky="ColumnHeaders">
+                <columns>
+                    <Column hAlign="Center">
+                        <Text text="Stato Prev." />
+                    </Column>
+                    <Column hAlign="Center">
+                        <Text text="Numero Pros." />
+                    </Column>
+                    <Column hAlign="Center">
+                        <Text text="Descrizione Prosp." />
+                    </Column>
+                    <Column hAlign="Center">
+                        <Text text="Nota Bene" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{AMMINISTRAZIONE}" />
+                        </cells>
+                        <cells>
+                            <Text text="{DESCRIZIONE}" />
+                        </cells>
+                        <cells>
+                            <Text text="{PROSPETTO}" />
+                        </cells>
+                        <cells>
+                            <Button text="Nota Bene" press=".onItemPress">
+                                <customData>
+                                    <core:CustomData key="popolato" value="{= ${NOTA}.length > 0 ? 'si': 'no'}" writeToDom="true" />
+                                </customData>
+                            </Button>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+                <dependents>
+                    <Dialog id="myDialog" title="Modifica nota: " type="Message">
+                        <VBox renderType="Bare" items="/lista/Prospetti">
+                            <Label text="Nota: " />
+                            <TextArea value="{NOTA}" editable="true" />
+                        </VBox>
+                        <beginButton>
+                            <Button text="Cancel" icon="sap-icon://delete" press=".onCancelPress" />
+                        </beginButton>
+                        <endButton>
+                            <Button text="OK" press=".onOkPress" />
+                        </endButton>
+                    </Dialog>
+                </dependents>
+            </Table>
 
-        <footer>
-            <OverflowToolbar>
-                <Button text="Export" icon="sap-icon://excel-attachment" press="onExport" />
-                <ToolbarSpacer />
-                <Button id="cancella" text="cancella" press="cancella" />
-            </OverflowToolbar>
-        </footer>
-    </Page>
+            <footer>
+                <OverflowToolbar>
+                    <Button text="Export" icon="sap-icon://excel-attachment" press="onExport" />
+                    <ToolbarSpacer />
+                    <Button id="newprospetto" text="New Prospetto" press="nuovoprospetto" icon="sap-icon://create"/>
+                    <Button id="cancella" text="cancella" icon="sap-icon://delete"  press="cancella" />
+                </OverflowToolbar>
+            </footer>
+        </Page>
+        <Page id="prospetto">
+            <headerContent>
+                <Button text="Tabella" press="nuovatabella" />
+            </headerContent>
+            <Label text="N° prospetto" />
+            <Input value="" width="250px" id="numeroprospetto" />
+            <ToolbarSeparator />
+
+            <l:VerticalLayout id="idVerticalLayout" class="sapUiContentPadding" width="100%">
+                <Title text="Titolo prospetto" />
+            </l:VerticalLayout>
+            <ToolbarSeparator />
+            <content>
+                <l:VerticalLayout id="idVerticalLayout2" class="sapUiContentPadding" width="100%">
+                    <Title text="Corpo prospetto" />
+                </l:VerticalLayout>
+            </content>
+
+            <footer>
+                <OverflowToolbar>
+                    <Button text="Back" icon="sap-icon://undo" press="onPressDetailBack" />
+                    <ToolbarSpacer />
+                    <Button text="Salva" icon="sap-icon://save" press="saverich" />
+                </OverflowToolbar>
+            </footer>
+        </Page>
+
+        <Page id="tabellarisult">
+            <Table id="Tabellanew" items="{path: 'ModelloRich>/lista'}" selectionChange="popolatabella" sticky="ColumnHeaders">
+                <columns>
+                    <Column hAlign="Center">
+                        <Text text="Numero Prospetto" />
+                    </Column>
+                    <Column hAlign="Center">
+                        <Text text="Titolo prospetto" />
+                    </Column>
+                    <Column hAlign="Center">
+                        <Text text="Corpo prospetto" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{ModelloRich>numpros}" />
+                        </cells>
+                        <cells>
+                            <!-- <Text text="{ModelloRich>primorich}" /> -->
+                            <core:HTML content='{ModelloRich>primorich}' />
+                        </cells>
+                        <cells>
+                            <!-- <Text text="{ModelloRich>secondorich}" /> -->
+                            <core:HTML content='{ModelloRich>secondorich}' />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+
+            <footer>
+                <OverflowToolbar>
+                    <Button text="Back" icon="sap-icon://undo" press="onPressDetailBack1" />
+                    <ToolbarSpacer />
+                </OverflowToolbar>
+            </footer>
+        </Page>
+    </App>
 </mvc:View>

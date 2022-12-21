@@ -39,24 +39,9 @@ sap.ui.define([
                         console.log(err);
                     },
                 });
-
-                // //prova
-                // var oModello, oView;
-
-                // this._sServiceUrl = './localService';
-
-                // this._oMockServer = new MockServer({
-                //     rootUri: this._sServiceUrl + "/"
-                // });
-
-                // var sPath = sap.ui.require.toUrl('sap/ui/export/sample/localService');
-                // this._oMockServer.simulate(sPath + '/metadata.xml', sPath + '/mockdata');
-                // this._oMockServer.start();
-
-                // oModello = new ODataModel(this._sServiceUrl);
-
-                // oView = this.getView();
-                // oView.setModel(oModello);
+                this.initRichTextEditor(true); //per rich Text
+                this.zinitRichTextEditor(true)
+                
             },
             onCancelPress: function () {
                 this.byId("myDialog").close();
@@ -170,6 +155,91 @@ sap.ui.define([
 
                 }
             },
+            getSplitAppObj: function () {
+                var result = this.byId("app");
+                if (!result) {
+                    Log.info("SplitApp object can't be found");
+                }
+                return result;
+            },
+            onPressDetailBack: function () {
+                this.getSplitAppObj().to(this.createId("page"));
+            },
+            nuovoprospetto: function () {
+                // this._oNavContainer.to(this.byId("prospetto"));
+                this.getSplitAppObj().to(this.createId("prospetto"));
+            },
+            initRichTextEditor: function (bIsTinyMCE5) {
+                var that = this,
+                    sHtmlValue = '';
+                sap.ui.require(["sap/ui/richtexteditor/RichTextEditor", "sap/ui/richtexteditor/library"],
+                    function (RTE, library) {
+                        var EditorType = library.EditorType;
+                        that.oRichTextEditor = new RTE("myRTE", {
+                            editorType: bIsTinyMCE5 ? EditorType.TinyMCE5 : EditorType.TinyMCE6,
+                            width: "100%",
+                            height: "400px",
+                            customToolbar: true,
+                            showGroupFont: true,
+                            showGroupLink: true,
+                            showGroupInsert: true,
+                            value: sHtmlValue,
+                            ready: function () {
+                                bIsTinyMCE5 ? this.addButtonGroup("styleselect").addButtonGroup("table") : this.addButtonGroup("styles").addButtonGroup("table");
+                            }
+                        });
+    
+                        that.getView().byId("idVerticalLayout").addContent(that.oRichTextEditor);
+                });
+            },
+            //prova secondo
+
+
+            zinitRichTextEditor: function (bIsTinyMCE5) {
+                var that = this,
+                    sHtmlValue = '';
+                sap.ui.require(["sap/ui/richtexteditor/RichTextEditor", "sap/ui/richtexteditor/library"],
+                    function (RTE, library) {
+                        var EditorType = library.EditorType;
+                        that.oRichTextEditor1 = new RTE("myRTE1", {
+                            editorType: bIsTinyMCE5 ? EditorType.TinyMCE5 : EditorType.TinyMCE6,
+                            width: "100%",
+                            height: "400px",
+                            customToolbar: true,
+                            showGroupFont: true,
+                            showGroupLink: true,
+                            showGroupInsert: true,
+                            value: sHtmlValue,
+                            ready: function () {
+                                bIsTinyMCE5 ? this.addButtonGroup("styleselect").addButtonGroup("table") : this.addButtonGroup("styles").addButtonGroup("table");
+                            }
+                        });
+    
+                        that.getView().byId("idVerticalLayout2").addContent(that.oRichTextEditor1);
+                });
+            },
+            saverich:function(){
+                var numprosp=this.byId("numeroprospetto").getValue()
+                var sprimorich=sap.ui.getCore().byId("myRTE").getValue()
+                var ssecondorich=sap.ui.getCore().byId("myRTE1").getValue()
+                // console.log(sprimorich,ssecondorich)
+                const oTabella = new sap.ui.model.json.JSONModel({
+                    lista: [{
+                                numpros:numprosp,
+                                primorich:sprimorich,
+                                secondorich:ssecondorich}],
+                });
+                this.getView().setModel(oTabella,"ModelloRich");
+            },
+            //per nuova tabella
+            nuovatabella:function(){
+                this.getSplitAppObj().to(this.createId("tabellarisult"));
+            },
+            onPressDetailBack1:function(){
+                this.getSplitAppObj().to(this.createId("prospetto"));
+            }
+
+            
 
 
         });
