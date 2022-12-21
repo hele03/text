@@ -248,10 +248,37 @@ sap.ui.define([
             },
             onPressDetailBack1: function () {
                 this.getSplitAppObj().to(this.createId("prospetto"));
-            }
+            },
 
+            //per la dialog
+            onMessageInformationDialogPress: function (event) {
+                var dialog = this.byId("dialog");
+                var item = event.getSource();
+                dialog.setBindingContext(item.getBindingContext());
+                dialog.open();
+            },
+            insert: function () {
+                this.byId("dialog").close();
+                var statoprev = this.byId("stato").getProperty("value")
+                var numeropro = this.byId("numero").getProperty("value")
+                var descprosp = this.byId("descrizionepres").getProperty("value")
+                var nota = this.byId("nota").getProperty("value")
 
+                if(statoprev != "" && numeropro!= "" && descprosp != "" ){
+                    var values={
+                      AMMINISTRAZIONE: parseInt(statoprev),
+                      PROSPETTO: parseInt(numeropro),
+                      DESCRIZIONE: descprosp,
+                      NOTA: nota
+                    }
 
+                    let tabella=this.getView().getModel().getProperty("/lista/Prospetti")
+                    tabella.unshift(values)
+                    this.getView().getModel().setProperty("/lista/Prospetti", tabella)
 
-        });
+                }
+
+              },
+
+            });
     });
