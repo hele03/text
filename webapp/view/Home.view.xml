@@ -127,15 +127,15 @@
                 <items>
                     <ColumnListItem>
                         <cells>
-                            <Text text="{ModelloRich>numpros}" />
+                            <Text text="{ModelloRich>numpros1}" />
                         </cells>
                         <cells>
-                            <!-- <Text text="{ModelloRich>primorich}" /> -->
-                            <core:HTML content='{ModelloRich>primorich}' />
+                            <!-- <Text text="{ModelloRich>primorich1}" /> -->
+                            <core:HTML content='{ModelloRich>primorich1}' />
                         </cells>
                         <cells>
-                            <!-- <Text text="{ModelloRich>secondorich}" /> -->
-                            <core:HTML content='{ModelloRich>secondorich}' />
+                            <!-- <Text text="{ModelloRich>secondorich1}" /> -->
+                            <core:HTML content='{ModelloRich>secondorich1}' />
                         </cells>
                     </ColumnListItem>
                 </items>

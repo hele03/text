@@ -16,7 +16,7 @@ sap.ui.define([
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller,  MessageToast, TextArea, Spreadsheet, MockServer, ODataModel) {
+    function (Controller, MessageToast, TextArea, Spreadsheet, MockServer, ODataModel) {
         "use strict";
 
 
@@ -41,7 +41,13 @@ sap.ui.define([
                 });
                 this.initRichTextEditor(true); //per rich Text
                 this.zinitRichTextEditor(true)
-                
+
+                //modello per tabella
+                const oTabella1 = new sap.ui.model.json.JSONModel({
+                    lista: [],
+                });
+                this.getView().setModel(oTabella1, "ModelloRich");
+
             },
             onCancelPress: function () {
                 this.byId("myDialog").close();
@@ -125,14 +131,14 @@ sap.ui.define([
                 const binding = table.getBinding("items");
                 const filter = [];
                 filter.push(
-                    
+
                     new sap.ui.model.Filter("AMMINISTRAZIONE", "EQ", amministrazione),
                     new sap.ui.model.Filter("PROSPETTO", "EQ", prospetto)
                 );
                 binding.filter(filter);
             },
             refresh: function (oControlEvent) {
-                var oBinding=this.getView().byId("Tabella").getBinding("items")
+                var oBinding = this.getView().byId("Tabella").getBinding("items")
                 oBinding.filter([]);
                 this.getView().byId("Tabella").setShowOverlay(false);
             },
@@ -188,9 +194,9 @@ sap.ui.define([
                                 bIsTinyMCE5 ? this.addButtonGroup("styleselect").addButtonGroup("table") : this.addButtonGroup("styles").addButtonGroup("table");
                             }
                         });
-    
+
                         that.getView().byId("idVerticalLayout").addContent(that.oRichTextEditor);
-                });
+                    });
             },
             //prova secondo
 
@@ -214,32 +220,37 @@ sap.ui.define([
                                 bIsTinyMCE5 ? this.addButtonGroup("styleselect").addButtonGroup("table") : this.addButtonGroup("styles").addButtonGroup("table");
                             }
                         });
-    
+
                         that.getView().byId("idVerticalLayout2").addContent(that.oRichTextEditor1);
-                });
+                    });
             },
-            saverich:function(){
-                var numprosp=this.byId("numeroprospetto").getValue()
-                var sprimorich=sap.ui.getCore().byId("myRTE").getValue()
-                var ssecondorich=sap.ui.getCore().byId("myRTE1").getValue()
+            saverich: function () {
+                var numprosp = this.byId("numeroprospetto").getValue()
+                var sprimorich = sap.ui.getCore().byId("myRTE").getValue()
+                var ssecondorich = sap.ui.getCore().byId("myRTE1").getValue()
                 // console.log(sprimorich,ssecondorich)
-                const oTabella = new sap.ui.model.json.JSONModel({
-                    lista: [{
-                                numpros:numprosp,
-                                primorich:sprimorich,
-                                secondorich:ssecondorich}],
-                });
-                this.getView().setModel(oTabella,"ModelloRich");
+
+                var values = {
+                    numpros1: numprosp,
+                    primorich1: sprimorich,
+                    secondorich1: ssecondorich
+                }
+
+                const tabella = this.getView().getModel("ModelloRich").getProperty("/lista") || [];
+                tabella.push(values)
+                this.getView().getModel("ModelloRich").setProperty("/lista", tabella)
+
+
             },
             //per nuova tabella
-            nuovatabella:function(){
+            nuovatabella: function () {
                 this.getSplitAppObj().to(this.createId("tabellarisult"));
             },
-            onPressDetailBack1:function(){
+            onPressDetailBack1: function () {
                 this.getSplitAppObj().to(this.createId("prospetto"));
             }
 
-            
+
 
 
         });
