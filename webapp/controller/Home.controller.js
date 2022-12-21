@@ -264,21 +264,34 @@ sap.ui.define([
                 var descprosp = this.byId("descrizionepres").getProperty("value")
                 var nota = this.byId("nota").getProperty("value")
 
-                if(statoprev != "" && numeropro!= "" && descprosp != "" ){
-                    var values={
-                      AMMINISTRAZIONE: parseInt(statoprev),
-                      PROSPETTO: descprosp,
-                      DESCRIZIONE:numeropro,
-                      NOTA: nota
+                if (statoprev != "" && numeropro != "" && descprosp != "") {
+                    var values = {
+                        AMMINISTRAZIONE: parseInt(statoprev),
+                        PROSPETTO: descprosp,
+                        DESCRIZIONE: numeropro,
+                        NOTA: nota
                     }
 
-                    let tabella=this.getView().getModel().getProperty("/lista/Prospetti")
+                    let tabella = this.getView().getModel().getProperty("/lista/Prospetti")
                     tabella.unshift(values)
                     this.getView().getModel().setProperty("/lista/Prospetti", tabella)
-
+                    //per sbiancare una volta avvenuto l'inserimento
+                    this.byId("stato").setValue("")
+                    this.byId("numero").setValue("")
+                    this.byId("descrizionepres").setValue("")
+                    this.byId("nota").setValue("")
                 }
 
-              },
+            },
+            deletecamp: function () { //cancella i campi della di
+                this.byId("stato").setValue("")
+                this.byId("numero").setValue("")
+                this.byId("descrizionepres").setValue("")
+                this.byId("nota").setValue("")
+            },
+            closedialog: function () { //per chiudere la dialog
+                this.byId("dialog").close()
+            }
 
-            });
+        });
     });

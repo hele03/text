@@ -4,6 +4,9 @@
             <headerContent>
                 <Button text="Crea" width="150px" press=".onMessageInformationDialogPress" class="sapUiSmallMarginBottom" />
                 <Dialog id="dialog" >
+                    <HeaderContainer >
+                            <Button text="X" press="closedialog"/> <!--Attenzione:da allineare a sinistra-->
+                    </HeaderContainer>
                        <Label text="Stato Prev." />
                        <Input value="" id="stato" type="Number"/>
                        <Label text="Numero Pros."/>
@@ -13,6 +16,7 @@
                        <Label text="Nota Bene"/>
                        <Input value="" id="nota"/> 
                     <Button text="Insert" press="insert" icon="sap-icon://write-new"/>
+                    <Button text="Cancella" press="deletecamp" icon="sap-icon://write-new"/> <!--cancella i campi scritti-->
                 </Dialog>
                 
                  <Label text="Anno" />
