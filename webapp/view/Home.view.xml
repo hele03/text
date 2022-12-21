@@ -111,7 +111,6 @@
                 </OverflowToolbar>
             </footer>
         </Page>
-
         <Page id="tabellarisult">
             <Table id="Tabellanew" items="{path: 'ModelloRich>/lista'}" selectionChange="popolatabella" sticky="ColumnHeaders">
                 <columns>
