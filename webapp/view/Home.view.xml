@@ -90,7 +90,7 @@
                 <Button text="Tabella" press="nuovatabella" />
             </headerContent>
             <Label text="N° prospetto" />
-            <Input value="" width="250px" id="numeroprospetto" />
+            <Input value="" width="250px" id="numeroprospetto" type="Number" />
             <ToolbarSeparator />
 
             <l:VerticalLayout id="idVerticalLayout" class="sapUiContentPadding" width="100%">
