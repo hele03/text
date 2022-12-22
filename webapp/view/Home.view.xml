@@ -1,25 +1,36 @@
-<mvc:View controllerName="zprogetto.controller.Home" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:tnt="sap.tnt">
+<mvc:View controllerName="zprogetto.controller.Home" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form">
     <App id="app">
         <Page id="page">
             <headerContent>
                 <Button text="Crea" width="150px" press=".onMessageInformationDialogPress" class="sapUiSmallMarginBottom" />
-                <Dialog id="dialog" >
-                    <HeaderContainer >
-                            <Button text="X" press="closedialog"/> <!--Attenzione:da allineare a sinistra-->
-                    </HeaderContainer>
-                       <Label text="Stato Prev." />
-                       <Input value="" id="stato" type="Number"/>
-                       <Label text="Numero Pros."/>
-                       <Input value="" id="numero"/>
-                       <Label text="Descrizione Prosp."/>
-                       <Input value="" id="descrizionepres" type="Number"/>
-                       <Label text="Nota Bene"/>
-                       <Input value="" id="nota"/> 
-                    <Button text="Insert" press="insert" icon="sap-icon://write-new"/>
-                    <Button text="Cancella" press="deletecamp" icon="sap-icon://write-new"/> <!--cancella i campi scritti-->
+                <Dialog id="dialog">
+                    <customHeader>
+                        <OverflowToolbar asyncMode="false">
+                            <ToolbarSpacer />
+                            <Button text="X" press="closedialog" />
+                            <!--Attenzione:da allineare a sinistra-->
+                        </OverflowToolbar>
+                    </customHeader>
+                    <form:SimpleForm>
+                        <Label text="Stato Prev." />
+                        <Input value="" id="stato" type="Number" />
+                        <Label text="Numero Pros." />
+                        <Input value="" id="numero" />
+                        <Label text="Descrizione Prosp." />
+                        <Input value="" id="descrizionepres" type="Number" />
+                        <Label text="Nota Bene" />
+                        <Input value="" id="nota" />
+                    </form:SimpleForm>
+                   <endButton> 
+                   <Button text="Cancella" press="deletecamp" icon="sap-icon://write-new" />
+                    </endButton>
+                    <beginButton>
+                         <Button text="Insert" press="insert" icon="sap-icon://write-new" />
+                    </beginButton>
+                   
                 </Dialog>
-                
-                 <Label text="Anno" />
+
+                <Label text="Anno" />
                 <Select id="anno">
                     <core:Item text="2022" />
                     <core:Item text="2023" />
