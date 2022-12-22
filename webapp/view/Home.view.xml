@@ -8,7 +8,6 @@
                         <OverflowToolbar asyncMode="false">
                             <ToolbarSpacer />
                             <Button text="X" press="closedialog" />
-                            <!--Attenzione:da allineare a sinistra-->
                         </OverflowToolbar>
                     </customHeader>
                     <form:SimpleForm>
