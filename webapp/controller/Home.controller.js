@@ -2,7 +2,8 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     // 'sap/ui/model/json/JSONModel',
     // "sap/ui/core/Core",
-    // "sap/m/Dialog",
+    
+    ,
     // "sap/m/Button",
     // "sap/m/Label",
     // "sap/m/library",
@@ -230,7 +231,7 @@ sap.ui.define([
                 var ssecondorich = sap.ui.getCore().byId("myRTE1").getValue()
                 // console.log(sprimorich,ssecondorich)
 
-                var values = {
+                var values = {                
                     numpros1: numprosp,
                     primorich1: sprimorich,
                     secondorich1: ssecondorich
